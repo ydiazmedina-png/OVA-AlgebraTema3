@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVA: Bases, Dimensión, Rango, Nulidad y Espacios Matriciales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-lg flex-shrink-0 hidden md:flex md:flex-col">
+        <div class="p-4">
+            <div style="width:150px;height:150px;"
+                 class="p-2 mx-auto flex items-center justify-center bg-white rounded-full shadow-lg border-2 border-green-500 hover:shadow-green-400 transition-shadow duration-300">
+                <img src="img/logo.webp" alt="Logo" class="w-5/6 h-5/6 object-contain" loading="lazy"
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'text-green-700 font-bold text-center text-xs p-2 block\'>Universidad de Córdoba</span>'">
+            </div>
+        </div>
+        <nav class="mt-6 flex-1">
+            <a href="#" class="sidebar-link active flex items-center py-3 px-6 font-medium text-slate-700" data-target="introduccion"><span class="mr-3 text-xl">🚀</span> Introducción</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="objetivos"><span class="mr-3 text-xl">🎯</span> Objetivos</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="contenido"><span class="mr-3 text-xl">📚</span> Contenido</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="actividades"><span class="mr-3 text-xl">✍️</span> Actividades</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="evaluacion"><span class="mr-3 text-xl">✔️</span> Evaluación</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="recursos"><span class="mr-3 text-xl">📖</span> Recursos</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="bibliografia"><span class="mr-3 text-xl">📚</span> Bibliografía</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 p-4 sm:p-6 md:p-10 bg-gray-50">
+
+        <!-- Mobile header -->
+        <div class="md:hidden mb-6 flex flex-col items-center">
+            <div style="width:100px;height:100px;"
+                 class="p-2 flex items-center justify-center bg-white rounded-full shadow-lg hover:shadow-green-400 transition-shadow duration-300 mb-2">
+                <img src="img/logo.webp" alt="Logo" class="w-5/6 h-5/6 object-contain" loading="lazy"
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'text-green-700 font-bold text-xs\'>UNICOR</span>'">
+            </div>
+            <select id="mobile-nav" class="w-full mt-2 p-2 border rounded-md bg-white shadow-sm">
+                <option value="introduccion">🚀 Introducción</option>
+                <option value="objetivos">🎯 Objetivos</option>
+                <option value="contenido">📚 Contenido</option>
+                <option value="actividades">✍️ Actividades</option>
+                <option value="evaluacion">✔️ Evaluación</option>
+                <option value="recursos">📖 Recursos</option>
+                <option value="bibliografia">📚 Bibliografía</option>
+            </select>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  INTRODUCCIÓN                             -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="introduccion" class="content-pane active">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Bases, Dimensión, Rango, Nulidad y Espacios Matriciales</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Imagina que quieres describir todos los puntos de una ciudad. Podrías hacerlo con dos datos:
+                la calle (este-oeste) y la carrera (norte-sur). Esos dos datos son <strong>suficientes y no redundantes</strong>:
+                ninguno puede reemplazar al otro. Eso es exactamente lo que hace una <strong>base</strong> en un espacio vectorial:
+                un conjunto mínimo y suficiente de instrucciones para llegar a cualquier punto del espacio. 🗺️
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                En las guías anteriores aprendiste qué es un espacio vectorial, cómo funciona la combinación lineal y cuándo
+                un conjunto es linealmente independiente. Ahora unimos esas ideas para construir el concepto de <strong>base</strong>
+                — el corazón del álgebra lineal — y a partir de él definiremos la <strong>dimensión</strong>, el <strong>rango</strong>,
+                la <strong>nulidad</strong> y los <strong>espacios fundamentales de una matriz</strong>.
+            </p>
+
+            <div class="mt-6 p-4 sm:p-6 bg-green-50 border-l-4 border-green-500 rounded-r-lg">
+                <p class="text-green-800">
+                    ✨ <strong>Estos conceptos son claves para resolver sistemas de ecuaciones, analizar transformaciones lineales, comprender PCA y diseñar algoritmos eficientes en ingeniería de sistemas. 🚀📐💻</strong>
+                </p>
+            </div>
+
+            <!-- Voz -->
+            <div class="speech-controls mb-4 p-3 bg-green-100 rounded-lg flex items-center flex-wrap gap-2 mt-4" data-target="introduccion">
+                <button class="play-btn bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-4 rounded-full flex items-center"><span class="mr-1">▶️</span> Leer</button>
+                <button class="pause-btn bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏸️</span> Pausar</button>
+                <button class="stop-btn bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏹️</span> Detener</button>
+                <div class="flex items-center ml-2">
+                    <label for="sr-intro" class="text-sm text-green-800 mr-2">Velocidad:</label>
+                    <input type="range" class="speech-rate" id="sr-intro" min="0.5" max="2" step="0.1" value="1">
+                </div>
+            </div>
+
+            <!-- Mapa conceptual SVG -->
+            <div class="mt-8 bg-white rounded-xl shadow-md p-4 border border-green-200">
+                <h3 class="text-lg font-bold text-green-700 mb-4 text-center">🗺️ Mapa conceptual: cómo se conectan los conceptos de esta guía (pasa el mouse sobre los elementos)</h3>
+                <div class="overflow-x-auto">
+                    <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-2xl mx-auto block" style="min-width:320px">
+                        <defs>
+                            <marker id="arr" markerWidth="9" markerHeight="6" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0,9 3,0 6" fill="#16a34a"/>
+                            </marker>
+                        </defs>
+                        <!-- EV + Subespacio -->
+                        <g class="svg-node cursor-pointer" onmouseover="this.querySelector('rect').setAttribute('fill','#86efac')" onmouseout="this.querySelector('rect').setAttribute('fill','#bbf7d0')">
+                            <rect x="10" y="140" width="150" height="44" rx="10" fill="#bbf7d0" stroke="#22c55e" stroke-width="2" class="transition-colors duration-300"/>
+                            <text x="85" y="158" text-anchor="middle" font-family="Poppins,sans-serif" font-size="12" font-weight="700" fill="#166534">Espacio Vectorial V</text>
+                            <text x="85" y="175" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" fill="#166534">+ Comb. Lineal + L.I.</text>
+                            <title>Espacio Vectorial: Conjunto con operaciones de suma y multiplicación por escalar</title>
+                        </g>
+                        <line x1="160" y1="162" x2="228" y2="162" stroke="#16a34a" stroke-width="1.8" marker-end="url(#arr)"/>
+                        <!-- BASE -->
+                        <g class="svg-node cursor-pointer" onmouseover="this.querySelector('rect').setAttribute('fill','#22c55e')" onmouseout="this.querySelector('rect').setAttribute('fill','#4ade80')">
+                            <rect x="230" y="138" width="140" height="48" rx="10" fill="#4ade80" stroke="#16a34a" stroke-width="2.5" class="transition-colors duration-300"/>
+                            <text x="300" y="158" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" font-weight="700" fill="#052e16">BASE de V</text>
+                            <text x="300" y="176" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" fill="#052e16">Genera V + L.I.</text>
+                            <title>Base: Conjunto mínimo y suficiente de vectores que genera el espacio</title>
+                        </g>
+                        <!-- BASE → DIMENSIÓN -->
+                        <line x1="300" y1="138" x2="300" y2="86" stroke="#16a34a" stroke-width="1.8" marker-end="url(#arr)"/>
+                        <g class="svg-node cursor-pointer" onmouseover="this.querySelector('rect').setAttribute('fill','#bbf7d0')" onmouseout="this.querySelector('rect').setAttribute('fill','#dcfce7')">
+                            <rect x="220" y="42" width="160" height="44" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="2" class="transition-colors duration-300"/>
+                            <text x="300" y="60" text-anchor="middle" font-family="Poppins,sans-serif" font-size="13" font-weight="700" fill="#166534">DIMENSIÓN dim(V)</text>
+                            <text x="300" y="78" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" fill="#166534">Nº de vectores en la base</text>
+                            <title>Dimensión: Número de vectores en cualquier base del espacio</title>
+                        </g>
+                        <!-- BASE → MATRIZ -->
+                        <line x1="370" y1="162" x2="438" y2="162" stroke="#16a34a" stroke-width="1.8" marker-end="url(#arr)"/>
+                        <g class="svg-node cursor-pointer" onmouseover="this.querySelector('rect').setAttribute('fill','#fcd34d')" onmouseout="this.querySelector('rect').setAttribute('fill','#fde68a')">
+                            <rect x="440" y="138" width="140" height="48" rx="10" fill="#fde68a" stroke="#d97706" stroke-width="2" class="transition-colors duration-300"/>
+                            <text x="510" y="158" text-anchor="middle" font-family="Poppins,sans-serif" font-size="13" font-weight="700" fill="#92400e">MATRIZ A</text>
+                            <text x="510" y="176" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" fill="#92400e">Eliminación gaussiana</text>
+                            <title>Matriz: Representación rectangular de datos para análisis</title>
+                        </g>
+                        <!-- RANGO -->
+                        <line x1="510" y1="138" x2="510" y2="86" stroke="#d97706" stroke-width="1.8" marker-end="url(#arr)"/>
+                        <g class="svg-node cursor-pointer" onmouseover="this.querySelector('rect').setAttribute('fill','#fde68a')" onmouseout="this.querySelector('rect').setAttribute('fill','#fef3c7')">
+                            <rect x="430" y="42" width="160" height="44" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2" class="transition-colors duration-300"/>
+                            <text x="510" y="60" text-anchor="middle" font-family="Poppins,sans-serif" font-size="13" font-weight="700" fill="#92400e">RANGO rango(A)</text>
+                            <text x="510" y="78" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" fill="#92400e">Nº de pivotes</text>
+                            <title>Rango: Número de pivotes en la forma escalonada de la matriz</title>
+                        </g>
+                        <!-- NULIDAD -->
+                        <line x1="510" y1="186" x2="510" y2="234" stroke="#d97706" stroke-width="1.8" marker-end="url(#arr)"/>
+                        <g class="svg-node cursor-pointer" onmouseover="this.querySelector('rect').setAttribute('fill','#fca5a5')" onmouseout="this.querySelector('rect').setAttribute('fill','#fee2e2')">
+                            <rect x="430" y="236" width="160" height="44" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2" class="transition-colors duration-300"/>
+                            <text x="510" y="254" text-anchor="middle" font-family="Poppins,sans-serif" font-size="13" font-weight="700" fill="#7f1d1d">NULIDAD nul(A)</text>
+                            <text x="510" y="272" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" fill="#7f1d1d">n − rango(A)</text>
+                            <title>Nulidad: Número de variables libres en el sistema homogéneo</title>
+                        </g>
+                        <!-- Teorema RN -->
+                        <g class="svg-node cursor-pointer" onmouseover="this.querySelector('rect').setAttribute('fill','#ddd6fe')" onmouseout="this.querySelector('rect').setAttribute('fill','#ede9fe')">
+                            <rect x="200" y="295" width="300" height="36" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" class="transition-colors duration-300"/>
+                            <text x="350" y="309" text-anchor="middle" font-family="Poppins,sans-serif" font-size="11" font-weight="700" fill="#4c1d95">Teorema Rango-Nulidad:</text>
+                            <text x="350" y="325" text-anchor="middle" font-family="Poppins,sans-serif" font-size="11" fill="#4c1d95">rango(A) + nulidad(A) = n</text>
+                            <title>Teorema Rango-Nulidad: La suma del rango y la nulidad siempre es igual al número de columnas</title>
+                        </g>
+                        <line x1="510" y1="280" x2="460" y2="295" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <line x1="300" y1="186" x2="300" y2="234" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <line x1="300" y1="234" x2="350" y2="295" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    </svg>
+                </div>
+                <p class="text-center text-sm text-slate-500 mt-4">💡 Pasa el mouse sobre los elementos para ver tooltips con información adicional</p>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  OBJETIVOS                                -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="objetivos" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Objetivos de aprendizaje</h2>
+            <ul class="space-y-4">
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
+                    <span class="text-green-700 mr-3 text-2xl">🧠</span>
+                    <span>Entender con claridad <strong>qué es una base</strong> de un espacio vectorial y por qué es importante.</span>
+                </li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
+                    <span class="text-green-700 mr-3 text-2xl">🔍</span>
+                    <span>Reconocer y <strong>verificar si un conjunto de vectores es base</strong> de un espacio dado.</span>
+                </li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
+                    <span class="text-green-700 mr-3 text-2xl">📐</span>
+                    <span>Comprender el concepto de <strong>dimensión</strong> y calcularlo para espacios y subespacios concretos.</span>
+                </li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
+                    <span class="text-green-700 mr-3 text-2xl">🔢</span>
+                    <span>Identificar el <strong>espacio fila, espacio columna y espacio nulo</strong> de una matriz usando eliminación gaussiana.</span>
+                </li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
+                    <span class="text-green-700 mr-3 text-2xl">💻</span>
+                    <span>Aplicar el <strong>Teorema Rango-Nulidad</strong> y comprender su significado geométrico e interpretación en problemas de ingeniería.</span>
+                </li>
+            </ul>
+            <div class="speech-controls mb-4 p-3 bg-green-100 rounded-lg flex items-center flex-wrap gap-2 mt-6" data-target="objetivos">
+                <button class="play-btn bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-4 rounded-full flex items-center"><span class="mr-1">▶️</span> Leer</button>
+                <button class="pause-btn bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏸️</span> Pausar</button>
+                <button class="stop-btn bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏹️</span> Detener</button>
+                <div class="flex items-center ml-2">
+                    <label for="sr-obj" class="text-sm text-green-800 mr-2">Velocidad:</label>
+                    <input type="range" class="speech-rate" id="sr-obj" min="0.5" max="2" step="0.1" value="1">
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  CONTENIDO                                -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="contenido" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Desarrollo del Contenido</h2>
+            
+            <!-- Barra de progreso -->
+            <div class="mb-6 bg-white rounded-lg p-4 shadow-sm border border-green-200">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-semibold text-green-800">📊 Tu progreso en este tema</span>
+                    <span id="progress-text" class="text-sm font-bold text-green-600">0%</span>
+                </div>
+                <div class="w-full bg-green-100 rounded-full h-3">
+                    <div id="progress-bar" class="bg-green-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between mt-2 text-xs text-slate-500">
+                    <span>Base</span>
+                    <span>Dimensión</span>
+                    <span>Rango-Nulidad</span>
+                    <span>Espacios</span>
+                </div>
+            </div>
+
+            <!-- Tabs principales del contenido -->
+            <div class="flex flex-wrap gap-2 mb-6 border-b-2 border-green-200 pb-4">
+                <button class="main-tab-btn active px-5 py-3 rounded-t-lg font-bold text-base transition-all bg-green-600 text-white shadow-md" data-main-tab="main-base">🏗️ Base</button>
+                <button class="main-tab-btn px-5 py-3 rounded-t-lg font-bold text-base transition-all bg-green-100 text-green-800 hover:bg-green-200" data-main-tab="main-dim">📏 Dimensión</button>
+                <button class="main-tab-btn px-5 py-3 rounded-t-lg font-bold text-base transition-all bg-green-100 text-green-800 hover:bg-green-200" data-main-tab="main-rango">🔢 Rango-Nulidad</button>
+                <button class="main-tab-btn px-5 py-3 rounded-t-lg font-bold text-base transition-all bg-green-100 text-green-800 hover:bg-green-200" data-main-tab="main-espacios">🗂️ Espacios</button>
+            </div>
+
+            <div class="space-y-6">
+                <!-- ── TAB PRINCIPAL: BASE ── -->
+                <div id="main-base" class="main-tab-content">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-green-200">
+                        <div class="space-y-6 text-slate-700 leading-relaxed">
+                            <!-- Definición -->
+                            <div class="bg-green-50 border-l-4 border-green-500 rounded-r-xl p-5 shadow">
+                                <p class="text-green-900 font-bold mb-2 text-lg">📖 Definición — Base</p>
+                                <p>Sea V un espacio vectorial. Un conjunto <strong>B = {v₁, v₂, …, vₙ}</strong> es una <strong>BASE de V</strong> si cumple AL MISMO TIEMPO:</p>
+                                <div class="mt-3 space-y-2">
+                                    <div class="flex items-center gap-3 bg-white rounded-lg p-3 border border-green-200 hover:shadow-md transition-shadow cursor-pointer" onclick="this.classList.toggle('ring-2')">
+                                        <span class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">1</span>
+                                        <span><strong>Genera V:</strong> span{v₁,…,vₙ} = V &nbsp;— cualquier vector de V se escribe como CL de los vectores de B</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 bg-white rounded-lg p-3 border border-green-200 hover:shadow-md transition-shadow cursor-pointer" onclick="this.classList.toggle('ring-2')">
+                                        <span class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">2</span>
+                                        <span><strong>Linealmente independiente:</strong> {v₁,…,vₙ} es L.I. &nbsp;— ningún vector es combinación lineal de los demás (no hay sobrantes)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flashcard interactiva -->
+                            <div class="perspective-1000">
+                                <div class="flashcard w-full h-48 cursor-pointer relative">
+                                    <div class="flashcard-inner w-full h-full relative transition-transform duration-500" style="transform-style: preserve-3d;">
+                                        <div class="flashcard-front absolute w-full h-full bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 flex flex-col justify-center items-center shadow-lg" style="backface-visibility: hidden;">
+                                            <span class="text-4xl mb-2">🃏</span>
+                                            <p class="text-white font-bold text-lg text-center">Haz clic para ver la clave</p>
+                                            <p class="text-green-100 text-sm mt-2">¿Qué hace única a una base?</p>
+                                        </div>
+                                        <div class="flashcard-back absolute w-full h-full bg-white rounded-xl p-6 flex flex-col justify-center items-center shadow-lg border-2 border-green-500" style="backface-visibility: hidden; transform: rotateY(180deg);">
+                                            <p class="text-green-800 font-bold text-center text-lg">Una base es el conjunto MÍNIMO y SUFICIENTE de vectores para generar todo el espacio.</p>
+                                            <p class="text-slate-600 text-sm mt-2 text-center">Sin redundancias y sin faltar nada.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Analogía -->
+                            <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-xl p-5">
+                                <h4 class="font-bold text-blue-800 mb-2">🏙️ Analogía: la ciudad y las instrucciones</h4>
+                                <p class="text-sm">Piensa en el plano ℝ²: para llegar a cualquier punto necesitas <strong>horizontal (x)</strong> y <strong>vertical (y)</strong>. Si añades "diagonal", esa diagonal es <em>redundante</em> (se obtiene combinando x e y). Una base es exactamente el conjunto de instrucciones <strong>suficientes y sin redundancias</strong>.</p>
+                            </div>
+
+                            <!-- Etiquetas interactivas -->
+                            <div>
+                                <h4 class="font-bold text-green-700 mb-3">🏷️ Etiquetas clave (haz clic para más info)</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="tag px-4 py-2 bg-green-100 text-green-800 rounded-full cursor-pointer hover:bg-green-200 transition-colors border-2 border-green-300 font-medium" data-info="Suficiente: Con estos vectores puedes llegar a cualquier punto del espacio">🎯 Suficiente</span>
+                                    <span class="tag px-4 py-2 bg-blue-100 text-blue-800 rounded-full cursor-pointer hover:bg-blue-200 transition-colors border-2 border-blue-300 font-medium" data-info="Independiente: Ningún vector puede obtenerse de los demás">🔗 Independiente</span>
+                                    <span class="tag px-4 py-2 bg-purple-100 text-purple-800 rounded-full cursor-pointer hover:bg-purple-200 transition-colors border-2 border-purple-300 font-medium" data-info="Mínimo: No hay vectores sobrantes o redundantes">⚡ Mínimo</span>
+                                    <span class="tag px-4 py-2 bg-orange-100 text-orange-800 rounded-full cursor-pointer hover:bg-orange-200 transition-colors border-2 border-orange-300 font-medium" data-info="Único número: Aunque hay infinitas bases, todas tienen el mismo número de vectores">📏 Dimensión</span>
+                                </div>
+                                <div id="tag-info" class="mt-4 p-4 bg-white rounded-lg border-2 border-green-200 hidden">
+                                    <p class="text-slate-700" id="tag-info-text"></p>
+                                </div>
+                            </div>
+
+                            <!-- Condiciones en detalle -->
+                            <h3 class="text-xl font-bold text-green-700 mb-3">📊 Las dos condiciones en detalle</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm border-collapse">
+                                    <thead><tr class="bg-green-700 text-white"><th class="p-3 rounded-tl-lg"></th><th class="p-3 text-left">Condición 1: GENERA V</th><th class="p-3 text-left rounded-tr-lg">Condición 2: L. INDEPENDIENTE</th></tr></thead>
+                                    <tbody>
+                                        <tr class="bg-green-50 border-b border-green-200"><td class="p-3 font-semibold">¿Qué significa?</td><td class="p-3">Todo vector de V se puede escribir como CL de los vectores de B</td><td class="p-3">Ningún vector de B puede obtenerse de los demás. No hay "sobrantes"</td></tr>
+                                        <tr class="bg-white"><td class="p-3 font-semibold">Si NO se cumple</td><td class="p-3 text-red-700">Hay vectores de V que no se pueden representar: el conjunto es insuficiente</td><td class="p-3 text-red-700">Hay vectores redundantes que no aportan información nueva</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Dropdown interactivo -->
+                            <div>
+                                <h4 class="font-bold text-green-700 mb-3">📋 Dropdown: Verificación práctica</h4>
+                                <div class="dropdown">
+                                    <button class="dropdown-btn w-full p-4 bg-green-100 border-2 border-green-300 rounded-lg font-bold text-green-800 flex justify-between items-center hover:bg-green-200 transition-colors">
+                                        <span>🔍 ¿Cómo verificar si un conjunto es base?</span>
+                                        <span class="dropdown-arrow transition-transform">▼</span>
+                                    </button>
+                                    <div class="dropdown-content hidden mt-2 p-4 bg-white border-2 border-green-300 rounded-lg">
+                                        <ol class="space-y-2 text-sm">
+                                            <li class="flex gap-2"><span class="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold flex-shrink-0">1</span><span>Verifica que el conjunto GENERA el espacio (resuelve c₁v₁+...+cₙvₙ = b)</span></li>
+                                            <li class="flex gap-2"><span class="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold flex-shrink-0">2</span><span>Verifica que es LINEALMENTE INDEPENDIENTE (resuelve c₁v₁+...+cₙvₙ = 0)</span></li>
+                                            <li class="flex gap-2"><span class="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold flex-shrink-0">3</span><span>Si se cumplen AMBAS condiciones → ¡Es base!</span></li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bases estándar -->
+                            <h3 class="text-xl font-bold text-green-700 mb-3">⭐ Bases estándar — las más conocidas</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm border-collapse">
+                                    <thead><tr class="bg-green-700 text-white"><th class="p-3 text-left rounded-tl-lg">Espacio</th><th class="p-3 text-left">Base estándar</th><th class="p-3 text-center">Dimensión</th><th class="p-3 text-left rounded-tr-lg">Ejemplo</th></tr></thead>
+                                    <tbody>
+                                        <tr class="bg-green-50 border-b border-green-200 hover:bg-green-100 transition-colors cursor-pointer"><td class="p-3 font-mono font-bold">ℝ²</td><td class="p-3 font-mono text-xs">{(1,0), (0,1)}</td><td class="p-3 text-center font-bold text-green-700">2</td><td class="p-3 text-xs">(3,5) = 3e₁ + 5e₂</td></tr>
+                                        <tr class="bg-white border-b border-green-200 hover:bg-green-50 transition-colors cursor-pointer"><td class="p-3 font-mono font-bold">ℝ³</td><td class="p-3 font-mono text-xs">{(1,0,0),(0,1,0),(0,0,1)}</td><td class="p-3 text-center font-bold text-green-700">3</td><td class="p-3 text-xs">(2,1,4) = 2e₁+e₂+4e₃</td></tr>
+                                        <tr class="bg-green-50 border-b border-green-200 hover:bg-green-100 transition-colors cursor-pointer"><td class="p-3 font-mono font-bold">M₂ₓ₂(ℝ)</td><td class="p-3 font-mono text-xs">{E₁₁, E₁₂, E₂₁, E₂₂}</td><td class="p-3 text-center font-bold text-green-700">4</td><td class="p-3 text-xs">4 matrices elementales</td></tr>
+                                        <tr class="bg-white hover:bg-green-50 transition-colors cursor-pointer"><td class="p-3 font-mono font-bold">P₂(ℝ)</td><td class="p-3 font-mono text-xs">{1, x, x²}</td><td class="p-3 text-center font-bold text-green-700">3</td><td class="p-3 text-xs">2+3x−x² = 2·1+3·x+(−1)·x²</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Ejemplos -->
+                            <h3 class="text-xl font-bold text-green-700 mb-3">📌 Ejemplos</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="example-card bg-green-50 border-l-4 border-green-500 rounded-r-lg p-5 cursor-pointer hover:shadow-lg transition-all" onclick="this.querySelector('.example-solution').classList.toggle('hidden')">
+                                    <h4 class="font-bold text-green-800 mb-2">Ejemplo 1 — {(1,0),(0,1)} es base de ℝ² ✅ (haz clic para ver solución)</h4>
+                                    <div class="example-solution hidden mt-3">
+                                        <div class="space-y-1 text-sm font-mono bg-white rounded p-3 border border-green-200">
+                                            <p>Condición 1: c₁(1,0)+c₂(0,1) = (a,b) → c₁=a, c₂=b. Genera ℝ² ✓</p>
+                                            <p>Condición 2: c₁(1,0)+c₂(0,1)=(0,0) → c₁=c₂=0. Es L.I. ✓</p>
+                                        </div>
+                                        <div class="mt-2 bg-green-100 rounded p-2 text-green-800 text-sm font-semibold">✅ Es base de ℝ². Es la base estándar.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="example-card bg-red-50 border-l-4 border-red-500 rounded-r-lg p-5 cursor-pointer hover:shadow-lg transition-all" onclick="this.querySelector('.example-solution').classList.toggle('hidden')">
+                                    <h4 class="font-bold text-red-800 mb-2">Ejemplo 2 — {(1,1),(2,2)} NO es base de ℝ² ❌ (haz clic para ver solución)</h4>
+                                    <div class="example-solution hidden mt-3">
+                                        <div class="text-sm bg-white rounded p-3 border border-red-200">
+                                            <p>v₂ = 2·v₁ → son L.D. Ambos apuntan en la misma dirección (diagonal).</p>
+                                            <p class="mt-1">Solo generan una <em>recta</em>, no todo ℝ².</p>
+                                        </div>
+                                        <div class="mt-2 bg-red-100 rounded p-2 text-red-800 text-sm font-semibold">❌ Falla la condición L.I. NO es base.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="example-card bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-5 cursor-pointer hover:shadow-lg transition-all" onclick="this.querySelector('.example-solution').classList.toggle('hidden')">
+                                    <h4 class="font-bold text-blue-800 mb-2">Ejemplo 3 — Base del subespacio W = {(x,y,z) | x−y+z=0} en ℝ³ (haz clic para ver solución)</h4>
+                                    <div class="example-solution hidden mt-3">
+                                        <div class="text-sm bg-white rounded p-3 border border-blue-200 space-y-1">
+                                            <p>Paso 1: x = y−z → (x,y,z) = y·(1,1,0) + z·(−1,0,1)</p>
+                                            <p>Paso 2: B = {(1,1,0), (−1,0,1)} genera W ✓</p>
+                                            <p>Paso 3: no son múltiplos → L.I. ✓</p>
+                                        </div>
+                                        <div class="mt-2 bg-blue-100 rounded p-2 text-blue-800 text-sm font-semibold">✅ B = {(1,1,0),(−1,0,1)} es base de W. dim(W) = 2.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nota infinitas bases -->
+                            <div class="bg-yellow-50 border-2 border-dashed border-yellow-400 rounded-xl p-5">
+                                <h4 class="font-bold text-yellow-800 mb-2">💡 Un espacio tiene infinitas bases — lo que es único es la dimensión</h4>
+                                <p class="text-sm">En ℝ², todas estas son bases válidas: {(1,0),(0,1)}, {(1,1),(1,−1)}, {(3,0),(0,2)}… Todas tienen exactamente <strong>2 vectores</strong>. Ese número es lo que llamamos <strong>DIMENSIÓN</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB PRINCIPAL: DIMENSIÓN ── -->
+                <div id="main-dim" class="main-tab-content hidden">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-green-200">
+                        <div class="space-y-6 text-slate-700 leading-relaxed">
+                            <!-- Definición -->
+                            <div class="bg-green-50 border-l-4 border-green-500 rounded-r-xl p-5 shadow">
+                                <p class="text-green-900 font-bold mb-2 text-lg">📖 Definición — Dimensión</p>
+                                <p>La <strong>dimensión</strong> de un espacio vectorial V, escrita <strong>dim(V)</strong>, es el número de vectores que tiene cualquier base de V.</p>
+                            </div>
+
+                            <!-- Flashcard interactiva -->
+                            <div class="perspective-1000">
+                                <div class="flashcard w-full h-48 cursor-pointer relative">
+                                    <div class="flashcard-inner w-full h-full relative transition-transform duration-500" style="transform-style: preserve-3d;">
+                                        <div class="flashcard-front absolute w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 flex flex-col justify-center items-center shadow-lg" style="backface-visibility: hidden;">
+                                            <span class="text-4xl mb-2">🃏</span>
+                                            <p class="text-white font-bold text-lg text-center">Haz clic para ver la clave</p>
+                                            <p class="text-blue-100 text-sm mt-2">¿Por qué la dimensión es única?</p>
+                                        </div>
+                                        <div class="flashcard-back absolute w-full h-full bg-white rounded-xl p-6 flex flex-col justify-center items-center shadow-lg border-2 border-blue-500" style="backface-visibility: hidden; transform: rotateY(180deg);">
+                                            <p class="text-blue-800 font-bold text-center text-lg">Todas las bases de un espacio tienen el MISMO número de vectores.</p>
+                                            <p class="text-slate-600 text-sm mt-2 text-center">Ese número único es la dimensión.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Visualización -->
+                            <h3 class="text-xl font-bold text-green-700 mb-3">📊 Dimensiones más importantes (haz clic para más info)</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="dimension-card bg-white rounded-xl p-4 border-2 border-green-300 text-center shadow-sm cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300" onclick="this.querySelector('.card-detail').classList.toggle('hidden')">
+                                    <div class="text-3xl mb-1">•</div>
+                                    <p class="font-bold text-green-800 text-lg">0</p>
+                                    <p class="font-mono text-xs text-slate-600">dim({0}) = 0</p>
+                                    <p class="text-xs text-slate-500 mt-1">Solo el vector cero</p>
+                                    <div class="card-detail hidden mt-3 pt-3 border-t border-green-200 text-xs text-green-700">
+                                        <p>El espacio trivial solo contiene el vector cero. No tiene direcciones independientes.</p>
+                                    </div>
+                                </div>
+                                <div class="dimension-card bg-white rounded-xl p-4 border-2 border-blue-300 text-center shadow-sm cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300" onclick="this.querySelector('.card-detail').classList.toggle('hidden')">
+                                    <div class="text-3xl mb-1">↔</div>
+                                    <p class="font-bold text-blue-800 text-lg">1</p>
+                                    <p class="font-mono text-xs text-slate-600">dim(recta) = 1</p>
+                                    <p class="text-xs text-slate-500 mt-1">Una dirección</p>
+                                    <div class="card-detail hidden mt-3 pt-3 border-t border-blue-200 text-xs text-blue-700">
+                                        <p>Cualquier recta que pasa por el origen. Necesitas solo 1 vector para describirla.</p>
+                                    </div>
+                                </div>
+                                <div class="dimension-card bg-white rounded-xl p-4 border-2 border-purple-300 text-center shadow-sm cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300" onclick="this.querySelector('.card-detail').classList.toggle('hidden')">
+                                    <div class="text-3xl mb-1">⊡</div>
+                                    <p class="font-bold text-purple-800 text-lg">2</p>
+                                    <p class="font-mono text-xs text-slate-600">dim(ℝ²) = 2</p>
+                                    <p class="text-xs text-slate-500 mt-1">Plano, dos direcciones</p>
+                                    <div class="card-detail hidden mt-3 pt-3 border-t border-purple-200 text-xs text-purple-700">
+                                        <p>El plano cartesiano. Necesitas 2 vectores independientes (x, y) para ubicar cualquier punto.</p>
+                                    </div>
+                                </div>
+                                <div class="dimension-card bg-white rounded-xl p-4 border-2 border-orange-300 text-center shadow-sm cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300" onclick="this.querySelector('.card-detail').classList.toggle('hidden')">
+                                    <div class="text-3xl mb-1">⬡</div>
+                                    <p class="font-bold text-orange-800 text-lg">3</p>
+                                    <p class="font-mono text-xs text-slate-600">dim(ℝ³) = 3</p>
+                                    <p class="text-xs text-slate-500 mt-1">Espacio, tres direcciones</p>
+                                    <div class="card-detail hidden mt-3 pt-3 border-t border-orange-200 text-xs text-orange-700">
+                                        <p>El espacio 3D. Necesitas 3 vectores independientes (x, y, z) para ubicar cualquier punto.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Teorema -->
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 rounded-r-xl p-5">
+                                <h4 class="font-bold text-yellow-800 mb-2">⚡ Teorema de la base — propiedad clave</h4>
+                                <p class="text-sm mb-3">Si <strong>dim(V) = n</strong>, entonces:</p>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start gap-2"><span class="text-yellow-600 font-bold">→</span><span>Cualquier conjunto de <strong>exactamente n vectores L.I.</strong> en V es automáticamente una base de V.</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-600 font-bold">→</span><span>Cualquier conjunto de <strong>exactamente n vectores que genere V</strong> es automáticamente una base de V.</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-600 font-bold">→</span><span>No puede existir en V un conjunto de <strong>más de n vectores L.I.</strong></span></li>
+                                </ul>
+                                <div class="mt-3 p-3 bg-white rounded-lg border border-yellow-300 text-sm">
+                                    💡 <strong>Consecuencia práctica:</strong> Si ya sabes que dim(V) = n y tienes n vectores L.I., ¡automáticamente son base! No necesitas verificar que generan V.
+                                </div>
+                            </div>
+
+                            <!-- Ejemplo -->
+                            <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-5">
+                                <h4 class="font-bold text-blue-800 mb-2">📌 Ejemplo 4 — Calcular dim(W) donde W = {(x,y,z) | 2x−y=0}</h4>
+                                <div class="text-sm bg-white rounded p-3 border border-blue-200 space-y-1">
+                                    <p>y = 2x → (x,y,z) = x·(1,2,0) + z·(0,0,1)</p>
+                                    <p>B = {(1,2,0), (0,0,1)}: genera W ✓ y L.I. ✓</p>
+                                </div>
+                                <div class="mt-2 bg-blue-100 rounded p-2 text-blue-800 text-sm font-semibold">✅ dim(W) = 2. W es un plano dentro de ℝ³.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB PRINCIPAL: RANGO-NULIDAD ── -->
+                <div id="main-rango" class="main-tab-content hidden">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-green-200">
+                        <div class="space-y-6 text-slate-700 leading-relaxed">
+                            <!-- Definiciones -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div class="bg-green-50 border-l-4 border-green-500 rounded-r-xl p-5 shadow">
+                                    <p class="text-green-900 font-bold mb-2">📖 Definición — Rango</p>
+                                    <p class="text-sm">El <strong>rango</strong> de una matriz A, escrito <strong>rango(A)</strong>, es el número de <strong>pivotes</strong> en la forma escalonada de A.</p>
+                                    <div class="mt-2 bg-white rounded p-2 border border-green-200 font-mono text-xs text-green-800">rango(A) = dim(Esp. Fila) = dim(Esp. Columna)</div>
+                                </div>
+                                <div class="bg-orange-50 border-l-4 border-orange-500 rounded-r-xl p-5 shadow">
+                                    <p class="text-orange-900 font-bold mb-2">📖 Definición — Nulidad</p>
+                                    <p class="text-sm">La <strong>nulidad</strong> de una matriz A (m×n), escrita <strong>nulidad(A)</strong>, es el número de variables libres en Ax=0.</p>
+                                    <div class="mt-2 bg-white rounded p-2 border border-orange-200 font-mono text-xs text-orange-800">nulidad(A) = n − rango(A)</div>
+                                </div>
+                            </div>
+
+                            <!-- Teorema -->
+                            <div class="bg-purple-50 border-2 border-purple-400 rounded-xl p-5 text-center shadow">
+                                <h4 class="font-bold text-purple-800 text-lg mb-1">⚡ Teorema Rango-Nulidad</h4>
+                                <p class="text-sm text-slate-600 mb-3">Para toda matriz A de tamaño m × n:</p>
+                                <div class="bg-white rounded-xl p-4 border-2 border-purple-300 inline-block">
+                                    <p class="font-mono text-2xl font-bold text-purple-800">rango(A) + nulidad(A) = n</p>
+                                </div>
+                                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-left">
+                                    <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                        <p class="font-bold text-purple-700 mb-1">Columnas con pivote →</p>
+                                        <p>Forman el <strong>espacio columna</strong>. Aportan al rango.</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 border border-purple-200">
+                                        <p class="font-bold text-purple-700 mb-1">Columnas libres (sin pivote) →</p>
+                                        <p>Forman el <strong>espacio nulo</strong>. Aportan a la nulidad.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ejemplo -->
+                            <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-5">
+                                <h4 class="font-bold text-blue-800 mb-3">📌 Ejemplo 5 — Rango y nulidad de una matriz 3×4</h4>
+                                <div class="font-mono text-xs bg-white rounded p-3 border border-blue-200 mb-3 space-y-1">
+                                    <p>A = [1 2 0 3]      →  [1 2 0 3]</p>
+                                    <p>    [2 4 1 7]  EG   →  [0 0 1 1]</p>
+                                    <p>    [0 0 1 1]      →  [0 0 0 0]</p>
+                                </div>
+                                <div class="space-y-1 text-sm">
+                                    <p>Pivotes en columnas 1 y 3 → <strong>rango(A) = 2</strong></p>
+                                    <p>Columnas libres: 2 y 4 → <strong>nulidad(A) = 4 − 2 = 2</strong></p>
+                                </div>
+                                <div class="mt-2 bg-purple-100 rounded p-2 text-purple-800 text-sm font-semibold">✅ Verificación: 2 + 2 = 4 = n ✓</div>
+                            </div>
+
+                            <!-- Calculadora -->
+                            <div class="bg-purple-50 border-l-4 border-purple-500 rounded-r-xl p-5">
+                                <h4 class="font-bold text-purple-800 mb-3">🧮 Calculadora Rango-Nulidad</h4>
+                                <p class="text-sm mb-4">Ingresa el número de columnas y el rango de una matriz para verificar el Teorema Rango-Nulidad:</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-1">Número de columnas (n):</label>
+                                        <input type="number" id="rn-cols" min="1" max="20" value="4" class="w-full p-3 border-2 border-purple-300 rounded-lg font-mono text-lg text-center focus:border-purple-500 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-1">Rango de la matriz:</label>
+                                        <input type="number" id="rn-rango" min="0" max="20" value="2" class="w-full p-3 border-2 border-purple-300 rounded-lg font-mono text-lg text-center focus:border-purple-500 focus:outline-none">
+                                    </div>
+                                </div>
+                                <button id="calc-rn-btn" class="bg-purple-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-purple-700 transition-colors">Calcular nulidad</button>
+                                <div id="rn-result" class="mt-4 hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB PRINCIPAL: ESPACIOS ── -->
+                <div id="main-espacios" class="main-tab-content hidden">
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-green-200">
+                        <div class="space-y-6 text-slate-700 leading-relaxed">
+                            <!-- Tabla resumen -->
+                            <h3 class="text-xl font-bold text-green-700 mb-3">📊 Tabla resumen de los tres espacios</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm border-collapse">
+                                    <thead><tr class="bg-green-700 text-white"><th class="p-3 text-left rounded-tl-lg">Espacio</th><th class="p-3 text-left">¿Qué es?</th><th class="p-3 text-center">Dimensión</th><th class="p-3 text-left rounded-tr-lg">¿Cómo se calcula?</th></tr></thead>
+                                    <tbody>
+                                        <tr class="bg-green-50 border-b border-green-200"><td class="p-3 font-bold text-green-700">Esp. Fila Row(A)</td><td class="p-3">Generado por las filas de A</td><td class="p-3 text-center font-mono">rango(A)</td><td class="p-3 text-xs">Filas no nulas de la forma escalonada</td></tr>
+                                        <tr class="bg-white border-b border-green-200"><td class="p-3 font-bold text-blue-700">Esp. Columna Col(A)</td><td class="p-3">Generado por las columnas de A</td><td class="p-3 text-center font-mono">rango(A)</td><td class="p-3 text-xs">Columnas de A <em>original</em> con pivote</td></tr>
+                                        <tr class="bg-green-50"><td class="p-3 font-bold text-red-700">Esp. Nulo Nul(A)</td><td class="p-3">Soluciones de Ax = 0</td><td class="p-3 text-center font-mono">n − rango(A)</td><td class="p-3 text-xs">Variables libres parametrizadas</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Interpretación -->
+                            <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-xl p-5">
+                                <h4 class="font-bold text-blue-800 mb-2">🎯 Interpretación fundamental del espacio columna</h4>
+                                <p class="text-sm">El sistema <strong>Ax = b tiene solución SI Y SOLO SI b pertenece al espacio columna de A.</strong> El espacio columna es el conjunto de todos los vectores b para los que el sistema es compatible.</p>
+                            </div>
+
+                            <!-- Etiquetas interactivas -->
+                            <div>
+                                <h4 class="font-bold text-green-700 mb-3">🏷️ Etiquetas clave (haz clic para más info)</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="tag px-4 py-2 bg-green-100 text-green-800 rounded-full cursor-pointer hover:bg-green-200 transition-colors border-2 border-green-300 font-medium" data-info="Espacio Fila: Conjunto de todas las combinaciones lineales de las filas de A">📊 Espacio Fila</span>
+                                    <span class="tag px-4 py-2 bg-blue-100 text-blue-800 rounded-full cursor-pointer hover:bg-blue-200 transition-colors border-2 border-blue-300 font-medium" data-info="Espacio Columna: Conjunto de todos los vectores b para los que Ax=b tiene solución">📐 Espacio Columna</span>
+                                    <span class="tag px-4 py-2 bg-red-100 text-red-800 rounded-full cursor-pointer hover:bg-red-200 transition-colors border-2 border-red-300 font-medium" data-info="Espacio Nulo: Conjunto de todas las soluciones del sistema homogéneo Ax=0">🌑 Espacio Nulo</span>
+                                </div>
+                                <div id="tag-info-esp" class="mt-4 p-4 bg-white rounded-lg border-2 border-green-200 hidden">
+                                    <p class="text-slate-700" id="tag-info-text-esp"></p>
+                                </div>
+                            </div>
+
+                            <!-- Ejemplo -->
+                            <div class="bg-purple-50 border-l-4 border-purple-500 rounded-r-lg p-5">
+                                <h4 class="font-bold text-purple-800 mb-3">📌 Ejemplo 6 — Los tres espacios de A = [[1,2],[3,6]]</h4>
+                                <div class="font-mono text-xs bg-white rounded p-3 border border-purple-200 mb-3 space-y-1">
+                                    <p>A = [1 2]   R2−3R1 →  [1 2]   1 pivote (col. 1)</p>
+                                    <p>    [3 6]            →  [0 0]</p>
+                                </div>
+                                <div class="space-y-3 text-sm">
+                                    <div class="bg-white rounded-lg p-3 border-l-4 border-green-500">
+                                        <p class="font-bold text-green-700">Espacio Fila:</p>
+                                        <p>Fila no nula de escalonada → base: {(1,2)} &nbsp; dim = 1</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 border-l-4 border-blue-500">
+                                        <p class="font-bold text-blue-700">Espacio Columna:</p>
+                                        <p>Col. 1 de A original → base: {(1,3)} &nbsp; dim = 1</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 border-l-4 border-red-500">
+                                        <p class="font-bold text-red-700">Espacio Nulo:</p>
+                                        <p>x₁ + 2x₂ = 0, x₂ libre → (x₁,x₂) = x₂(−2,1)</p>
+                                        <p>Base: {(−2,1)} &nbsp; dim = 1</p>
+                                    </div>
+                                </div>
+                                <div class="mt-3 bg-purple-100 rounded p-2 text-purple-800 text-sm font-semibold">✅ Verificación TRN: rango + nulidad = 1 + 1 = 2 = n ✓</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- fin tabs principales -->
+        </div>
+
+<!-- ══════════════════════════════════════════ -->
+        <!--  ACTIVIDADES                              -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="actividades" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Actividades prácticas</h2>
+
+            <!-- Actividad 1: Emparejamiento -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6 mb-8">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 1. Empareja cada concepto con su definición</h3>
+                <p class="text-slate-600 mb-6">Haz clic en un concepto y luego en su definición correcta.</p>
+                <div class="flex flex-col lg:flex-row gap-8 mb-4">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-green-800 mb-4 text-center">Conceptos</h4>
+                        <div id="concepts-container" class="space-y-3">
+                            <div class="concept-item bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all border-2 border-transparent" data-concept="base">
+                                <div class="flex items-center justify-between"><span class="font-bold text-green-800">🏗️ Base de V</span><span class="hint-text text-xs bg-green-300 px-2 py-1 rounded">Clic</span></div>
+                            </div>
+                            <div class="concept-item bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all border-2 border-transparent" data-concept="dim">
+                                <div class="flex items-center justify-between"><span class="font-bold text-green-800">📏 Dimensión</span><span class="hint-text text-xs bg-green-300 px-2 py-1 rounded">Clic</span></div>
+                            </div>
+                            <div class="concept-item bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all border-2 border-transparent" data-concept="rango">
+                                <div class="flex items-center justify-between"><span class="font-bold text-green-800">🔢 Rango</span><span class="hint-text text-xs bg-green-300 px-2 py-1 rounded">Clic</span></div>
+                            </div>
+                            <div class="concept-item bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all border-2 border-transparent" data-concept="nulidad">
+                                <div class="flex items-center justify-between"><span class="font-bold text-green-800">⭕ Nulidad</span><span class="hint-text text-xs bg-green-300 px-2 py-1 rounded">Clic</span></div>
+                            </div>
+                            <div class="concept-item bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all border-2 border-transparent" data-concept="nulo">
+                                <div class="flex items-center justify-between"><span class="font-bold text-green-800">🌑 Espacio Nulo</span><span class="hint-text text-xs bg-green-300 px-2 py-1 rounded">Clic</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-green-800 mb-4 text-center">Definiciones</h4>
+                        <div id="definitions-container" class="space-y-3">
+                            <div class="definition-item bg-gray-50 p-4 rounded-lg shadow-md border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-100 transition-all min-h-[64px] flex items-center" data-definition="dim">
+                                <div class="w-full"><p class="text-slate-700 text-sm">Número de vectores en cualquier base de V. Mide cuántas "direcciones independientes" tiene el espacio.</p><div class="matched-concept mt-1 hidden text-green-700 font-semibold text-sm"></div></div>
+                            </div>
+                            <div class="definition-item bg-gray-50 p-4 rounded-lg shadow-md border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-100 transition-all min-h-[64px] flex items-center" data-definition="base">
+                                <div class="w-full"><p class="text-slate-700 text-sm">Conjunto que genera V y es linealmente independiente. Instrucciones mínimas y suficientes para llegar a cualquier punto del espacio.</p><div class="matched-concept mt-1 hidden text-green-700 font-semibold text-sm"></div></div>
+                            </div>
+                            <div class="definition-item bg-gray-50 p-4 rounded-lg shadow-md border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-100 transition-all min-h-[64px] flex items-center" data-definition="nulo">
+                                <div class="w-full"><p class="text-slate-700 text-sm">Conjunto de todas las soluciones del sistema homogéneo Ax = 0. Siempre es un subespacio de ℝⁿ.</p><div class="matched-concept mt-1 hidden text-green-700 font-semibold text-sm"></div></div>
+                            </div>
+                            <div class="definition-item bg-gray-50 p-4 rounded-lg shadow-md border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-100 transition-all min-h-[64px] flex items-center" data-definition="rango">
+                                <div class="w-full"><p class="text-slate-700 text-sm">Número de pivotes en la forma escalonada de A. Equivale a la dimensión del espacio fila y del espacio columna.</p><div class="matched-concept mt-1 hidden text-green-700 font-semibold text-sm"></div></div>
+                            </div>
+                            <div class="definition-item bg-gray-50 p-4 rounded-lg shadow-md border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-100 transition-all min-h-[64px] flex items-center" data-definition="nulidad">
+                                <div class="w-full"><p class="text-slate-700 text-sm">Número de variables libres en Ax = 0. Se calcula como n − rango(A).</p><div class="matched-concept mt-1 hidden text-green-700 font-semibold text-sm"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 bg-green-50 border border-green-200 rounded-lg mb-4"><p class="text-sm text-green-800"><strong>💡 Instrucciones:</strong> Haz clic en un concepto y luego en su definición para emparejarlos.</p></div>
+                <div class="flex gap-4">
+                    <button id="check-matching-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Verificar</button>
+                    <button id="reset-matching-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Reiniciar</button>
+                </div>
+                <div id="matching-result" class="mt-4 font-medium"></div>
+            </div>
+
+            <!-- Actividad 2: V o F -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6 mb-8">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 2. Verdadero (V) o Falso (F)</h3>
+                <p class="text-slate-600 mb-6">Escribe <strong>V</strong> o <strong>F</strong> en cada casilla:</p>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <input type="text" id="vf1" maxlength="1" placeholder="?" class="vf-input w-12 h-12 text-center border-2 border-green-300 rounded-lg font-bold text-lg bg-white uppercase flex-shrink-0">
+                        <p class="text-slate-700 pt-2">El conjunto {(1,0),(0,1),(1,1)} es base de ℝ².</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <input type="text" id="vf2" maxlength="1" placeholder="?" class="vf-input w-12 h-12 text-center border-2 border-green-300 rounded-lg font-bold text-lg bg-white uppercase flex-shrink-0">
+                        <p class="text-slate-700 pt-2">dim(P₃(ℝ)) = 3 (polinomios de grado ≤ 3).</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <input type="text" id="vf3" maxlength="1" placeholder="?" class="vf-input w-12 h-12 text-center border-2 border-green-300 rounded-lg font-bold text-lg bg-white uppercase flex-shrink-0">
+                        <p class="text-slate-700 pt-2">Para una matriz A de 3×5 con rango 3, la nulidad es 2.</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <input type="text" id="vf4" maxlength="1" placeholder="?" class="vf-input w-12 h-12 text-center border-2 border-green-300 rounded-lg font-bold text-lg bg-white uppercase flex-shrink-0">
+                        <p class="text-slate-700 pt-2">Una matriz 3×3 puede tener rango 4.</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <input type="text" id="vf5" maxlength="1" placeholder="?" class="vf-input w-12 h-12 text-center border-2 border-green-300 rounded-lg font-bold text-lg bg-white uppercase flex-shrink-0">
+                        <p class="text-slate-700 pt-2">Si dim(V) = n y tengo n vectores L.I. en V, entonces automáticamente son base de V.</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <input type="text" id="vf6" maxlength="1" placeholder="?" class="vf-input w-12 h-12 text-center border-2 border-green-300 rounded-lg font-bold text-lg bg-white uppercase flex-shrink-0">
+                        <p class="text-slate-700 pt-2">Para encontrar una base del espacio columna se toman las columnas de la forma escalonada (no de la original).</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <input type="text" id="vf7" maxlength="1" placeholder="?" class="vf-input w-12 h-12 text-center border-2 border-green-300 rounded-lg font-bold text-lg bg-white uppercase flex-shrink-0">
+                        <p class="text-slate-700 pt-2">El sistema Ax=b tiene solución si y solo si b pertenece al espacio columna de A.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 mt-6">
+                    <button id="check-vf-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Verificar</button>
+                    <button id="reset-vf-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Reiniciar</button>
+                </div>
+                <div id="vf-result" class="mt-4 font-medium"></div>
+            </div>
+
+            <!-- Actividad 3: Calculadora Rango-Nulidad -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6 mb-8">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 3. Calculadora Rango-Nulidad</h3>
+                <p class="text-slate-600 mb-6">Ingresa el número de columnas y el rango de una matriz para verificar el Teorema Rango-Nulidad:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Número de columnas (n):</label>
+                        <input type="number" id="rn-cols" min="1" max="20" value="4" class="w-full p-3 border-2 border-green-300 rounded-lg font-mono text-lg text-center focus:border-green-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Rango de la matriz:</label>
+                        <input type="number" id="rn-rango" min="0" max="20" value="2" class="w-full p-3 border-2 border-green-300 rounded-lg font-mono text-lg text-center focus:border-green-500 focus:outline-none">
+                    </div>
+                </div>
+                <button id="calc-rn-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Calcular nulidad</button>
+                <div id="rn-result" class="mt-4 hidden"></div>
+            </div>
+
+            <!-- Actividad 4: Preguntas de análisis -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 4. Preguntas de razonamiento</h3>
+                <p class="text-slate-600 mb-5">Desarrolle las siguientes preguntas de análisis y documente sus procedimientos y resultados.</p>
+                <div class="space-y-4">
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-1">1.</p>
+                        <p class="text-slate-700">Si dim(V) = 4 y tienes 4 vectores L.I. en V, ¿son automáticamente base de V? Explica por qué.</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-1">2.</p>
+                        <p class="text-slate-700">Una matriz A tiene 3 filas y 5 columnas. Si rango(A) = 2, ¿cuánto vale nulidad(A)? ¿Cuántas soluciones tiene Ax = 0?</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-1">3.</p>
+                        <p class="text-slate-700">¿Puede una matriz 3×3 tener rango 4? Justifica tu respuesta.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  EVALUACIÓN                               -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="evaluacion" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Evaluación. Selección múltiple (marca la respuesta correcta)</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-slate-600 mb-6">Comprueba lo que has aprendido. Selecciona la respuesta correcta para cada pregunta.</p>
+                <div id="quiz-container"></div>
+                <div class="flex gap-3 mt-6">
+                    <button id="submit-quiz-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Finalizar evaluación</button>
+                    <button id="reset-quiz-btn" class="bg-orange-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-orange-600 transition-colors">🔄 Reiniciar evaluación</button>
+                </div>
+                <div id="quiz-result" class="mt-4 text-lg font-bold"></div>
+            </div>
+        </div>
+
+<!-- ══════════════════════════════════════════ -->
+        <!--  RECURSOS                                 -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="recursos" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Recursos para profundizar</h2>
+            <p class="text-slate-700 leading-relaxed mb-6">Para ampliar tu conocimiento sobre bases, dimensión, rango y nulidad, te recomendamos los siguientes recursos:</p>
+            <ul class="space-y-4">
+
+                <!-- Recurso 1: GeoGebra -->
+                <li class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500 flex flex-col sm:flex-row sm:items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-green-700">Simulador GeoGebra — Bases en ℝ² y ℝ³</h3>
+                        <p class="text-sm text-slate-500 mb-1">Visualiza bases, span y combinaciones lineales de forma interactiva en 2D y 3D</p>
+                        <a href="https://www.geogebra.org/3d" target="_blank" class="underline text-slate-700 hover:text-green-700">Ir al recurso</a>
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex flex-col items-center">
+                        <img src="img/Qr1.png" alt="QR GeoGebra Bases" class="w-16 h-16 object-contain border border-green-300 rounded bg-green-50 p-1" loading="lazy"
+                             onerror="this.style.display='none'">
+                        <span class="text-xs text-slate-400 mt-1">Escanea el QR</span>
+                    </div>
+                </li>
+
+                <!-- Recurso 2: Video Rango y espacios nulos -->
+                <li class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500 flex flex-col sm:flex-row sm:items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-green-700">Video — Rango y Espacios Nulos</h3>
+                        <p class="text-sm text-slate-500 mb-1">Comprensión visual del rango, la nulidad y los espacios fundamentales de una matriz</p>
+                        <a href="https://www.youtube.com/watch?v=uQhTuRlWMxw" target="_blank" class="underline text-slate-700 hover:text-green-700">Ir al recurso</a>
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex flex-col items-center">
+                        <img src="img/Qr2.png" alt="QR Video Rango y Nulidad" class="w-16 h-16 object-contain border border-green-300 rounded bg-green-50 p-1" loading="lazy"
+                             onerror="this.style.display='none'">
+                        <span class="text-xs text-slate-400 mt-1">Escanea el QR</span>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+       <!-- ══════════════════════════════════════════ -->
+        <!--  BIBLIOGRAFÍA                             -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="bibliografia" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Bibliografía</h2>
+            <div class="space-y-4">
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500">
+                    <span class="block text-slate-700">Grossman, S. I. (2012). <em>Álgebra lineal</em> (7.ª ed.). McGraw-Hill Interamericana.</span>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500">
+                    <span class="block text-slate-700">Lay, D. C., Lay, S. R., y McDonald, J. J. (2016). <em>Álgebra lineal y sus aplicaciones</em> (5.ª ed.). Pearson Education.</span>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500">
+                    <span class="block text-slate-700">Kolman, B., y Hill, D. (2006). <em>Álgebra lineal</em> (8.ª ed.). Pearson Educación.</span>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500">
+                    <span class="block text-slate-700">Strang, G. (2016). <em>Introduction to linear algebra</em> (5.ª ed.). Wellesley-Cambridge Press.</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- Modal imagen -->
+<div id="imageModal" class="image-modal">
+    <div class="modal-content">
+        <img id="modalImage" src="" alt="Imagen ampliada">
+        <button class="close-modal" id="closeModal">&times;</button>
+    </div>
+</div>
+
+<script src="js/speech.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/activities.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/accordion.js"></script>
+<script src="js/navigation.js"></script>
+
+<!-- Footer en todas las secciones -->
+<script>
+    const footerHTML = `
+        <footer class="mt-12 pt-6 border-t-2 border-slate-200 text-center">
+            <p class="text-slate-600 font-medium">Creado por:</p>
+            <p class="text-green-800 font-bold text-lg">Centro de Innovación en TIC para el apoyo de la Docencia CINTIA</p>
+            <p class="text-slate-500 text-sm">Universidad de Córdoba</p>
+        </footer>
+    `;
+    document.querySelectorAll('.content-pane').forEach(pane => {
+        pane.insertAdjacentHTML('beforeend', footerHTML);
+    });
+</script>
+</body>
+</html>
